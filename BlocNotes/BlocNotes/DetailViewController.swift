@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate {
+class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResultsControllerDelegate {
 
     var managedObjectContext: NSManagedObjectContext? = nil
 
@@ -17,7 +17,7 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
     @IBOutlet weak var textView: UITextView!
 
 
-    var detailItem: AnyObject? {
+    var detailItem: Note? {
         didSet {
             // Update the view.
             self.configureView()
@@ -26,10 +26,15 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
 
     func configureView() {
         // Update the user interface for the detail item.
-        if let detail: AnyObject = self.detailItem {
+        if let detail: Note = self.detailItem {
             if let label = self.detailDescriptionLabel {
-                label.text = detail.valueForKey("timeStamp")!.description
+                label.text = detail.timeStamp.description
             }
+            
+            if let textView = self.textView {
+                textView.text = detail.noteText
+            }
+
         }
     }
 
@@ -37,8 +42,29 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
+        textView.delegate = self
+        if let detail: Note = self.detailItem {
+            self.title = detail.noteTitle
+        }
+        
     }
-
+    // Saving and resigning keyboard
+    
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n"
+        {
+            // textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+    @IBAction func DismissKeyboard(sender: AnyObject) {
+        self.view .endEditing(true)
+    }
+    
+    //
+    
     func insertNewObject(sender: AnyObject) {
         let context = self.fetchedResultsController.managedObjectContext
         let entity = self.fetchedResultsController.fetchRequest.entity!
@@ -46,9 +72,8 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
         
         // If appropriate, configure the new managed object.
         // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-        newManagedObject.setValue(NSDate(), forKey: "timeStamp")
-        newManagedObject.setValue("Untitled note", forKey: "noteTitle")
-        newManagedObject.setValue(textView.text, forKey: "noteText")
+        newManagedObject.setValue(self.textView.text, forKey: "noteText")
+        newManagedObject.setValue("I changed", forKey: "noteTitle")
 
         // Save the context.
         var error: NSError? = nil
@@ -104,6 +129,18 @@ class DetailViewController: UIViewController, NSFetchedResultsControllerDelegate
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        detailItem!.noteText = self.textView.text
+        detailItem!.noteTitle = "I changed"
+
+        var error: NSError? = nil
+        if !self.managedObjectContext!.save(&error) {
+            abort()
+        }
+    }
+    
+
 
 
 }

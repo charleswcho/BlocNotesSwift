@@ -15,6 +15,7 @@
 		BA3492F51B66E74600800939 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA3492F41B66E74600800939 /* Images.xcassets */; };
 		BA3492F81B66E74600800939 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA3492F61B66E74600800939 /* LaunchScreen.xib */; };
 		BA3493041B66E74600800939 /* BlocNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3493031B66E74600800939 /* BlocNotesTests.swift */; };
+		BA3493141B680EFA00800939 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3493131B680EFA00800939 /* Note.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		BA3492FD1B66E74600800939 /* BlocNotesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlocNotesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA3493021B66E74600800939 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA3493031B66E74600800939 /* BlocNotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlocNotesTests.swift; sourceTree = "<group>"; };
+		BA3493131B680EFA00800939 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		BA3492E51B66E74600800939 /* BlocNotes */ = {
 			isa = PBXGroup;
 			children = (
+				BA3493131B680EFA00800939 /* Note.swift */,
 				BA3492E81B66E74600800939 /* AppDelegate.swift */,
 				BA3492ED1B66E74600800939 /* MasterViewController.swift */,
 				BA3492EF1B66E74600800939 /* DetailViewController.swift */,
@@ -218,6 +221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA3493141B680EFA00800939 /* Note.swift in Sources */,
 				BA3492E91B66E74600800939 /* AppDelegate.swift in Sources */,
 				BA3492EC1B66E74600800939 /* BlocNotes.xcdatamodeld in Sources */,
 				BA3492EE1B66E74600800939 /* MasterViewController.swift in Sources */,
@@ -417,6 +421,7 @@
 				BA3493091B66E74600800939 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BA34930A1B66E74600800939 /* Build configuration list for PBXNativeTarget "BlocNotesTests" */ = {
 			isa = XCConfigurationList;
@@ -425,6 +430,7 @@
 				BA34930C1B66E74600800939 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

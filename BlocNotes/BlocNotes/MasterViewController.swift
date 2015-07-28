@@ -24,13 +24,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     func insertNewObject(sender: AnyObject) {
         let context = self.fetchedResultsController.managedObjectContext
         let entity = self.fetchedResultsController.fetchRequest.entity!
@@ -38,8 +39,16 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
              
         // If appropriate, configure the new managed object.
         // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-        newManagedObject.setValue(NSDate(), forKey: "timeStamp")
         
+        
+//        let dateAsString = "July 28, 2015, 11:14 AM"
+//        
+//        let dateFormatter = NSDateFormatter()
+//        dateFormatter.dateFormat = "MMM d, yyyy, h:mm a"
+//        let date = dateFormatter.dateFromString(dateAsString)
+     
+        newManagedObject.setValue(NSDate(), forKey: "timeStamp")
+        newManagedObject.setValue("Untitled note", forKey: "noteTitle")
         // Save the context.
         var error: NSError? = nil
         if !context.save(&error) {
@@ -55,12 +64,15 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
-            let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
-            (segue.destinationViewController as! DetailViewController).detailItem = object
+                let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
+                
+                (segue.destinationViewController as! DetailViewController).detailItem = object as? Note
+                (segue.destinationViewController as! DetailViewController).managedObjectContext = self.fetchedResultsController.managedObjectContext
+                
             }
         }
     }
-
+    
     // MARK: - Table View
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
