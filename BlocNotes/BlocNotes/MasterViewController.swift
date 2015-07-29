@@ -49,6 +49,11 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
      
         newManagedObject.setValue(NSDate(), forKey: "timeStamp")
         newManagedObject.setValue("Untitled note", forKey: "noteTitle")
+        
+        // Adding light grey placeholder text for new notes
+                //
+        newManagedObject.setValue("What do you want to remember and share today?", forKey: "noteText")
+        
         // Save the context.
         var error: NSError? = nil
         if !context.save(&error) {
