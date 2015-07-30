@@ -15,8 +15,7 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
     var placeHolderText = "What do you want to remember and share today?"
     
     @IBOutlet weak var detailDescriptionLabel: UILabel!
-    @IBOutlet weak var textView: UITextView!
-
+    @IBOutlet var textView: UITextView!
     
     var detailItem: Note? {
         didSet {
@@ -46,7 +45,6 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         textView.delegate = self
 
         if let detail: Note = self.detailItem {
-            self.title = detail.noteTitle
             self.textView.text = detail.noteText
             
 //            if detail.noteText == placeHolderText {
@@ -58,6 +56,8 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         
         
     }
+    
+    
     
     // Clear the placeholder text and set the text color to black to accommodate the user's entry.
     
@@ -81,23 +81,6 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
     
     // Saving and resigning keyboard
 
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n"
-        {
-            // Saving every time a user presses the return key
-            
-            detailItem!.noteText = self.textView.text
-            detailItem!.noteTitle = "I changed"
-            
-            var error: NSError? = nil
-            if !self.managedObjectContext!.save(&error) {
-                abort()
-            }
-            
-            return false
-        }
-        return true
-    }
     
     @IBAction func DismissKeyboard(sender: AnyObject) {
         self.view .endEditing(true)
@@ -106,7 +89,12 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
 
     override func viewWillDisappear(animated: Bool) {
         detailItem!.noteText = self.textView.text
-        detailItem!.noteTitle = "I changed"
+        
+        // Save the first 30 characters as the title of the note
+        var textViewString:String = self.textView.text
+        var title: String = (textViewString as NSString).substringToIndex(30)
+        detailItem!.noteTitle = title
+
 
         var error: NSError? = nil
         if !self.managedObjectContext!.save(&error) {

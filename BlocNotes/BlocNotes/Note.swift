@@ -14,5 +14,5 @@ class Note: NSManagedObject {
     @NSManaged var noteText: String
     @NSManaged var noteTitle: String
     @NSManaged var timeStamp: NSDate
-
+    @NSManaged var starred: Int16
 }

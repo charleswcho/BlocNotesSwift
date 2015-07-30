@@ -42,6 +42,7 @@
 		BA3493021B66E74600800939 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA3493031B66E74600800939 /* BlocNotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlocNotesTests.swift; sourceTree = "<group>"; };
 		BA3493131B680EFA00800939 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		BA3493171B69A5F700800939 /* BlocNotes 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BlocNotes 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -438,9 +439,10 @@
 		BA3492EA1B66E74600800939 /* BlocNotes.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				BA3493171B69A5F700800939 /* BlocNotes 2.xcdatamodel */,
 				BA3492EB1B66E74600800939 /* BlocNotes.xcdatamodel */,
 			);
-			currentVersion = BA3492EB1B66E74600800939 /* BlocNotes.xcdatamodel */;
+			currentVersion = BA3493171B69A5F700800939 /* BlocNotes 2.xcdatamodel */;
 			path = BlocNotes.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
