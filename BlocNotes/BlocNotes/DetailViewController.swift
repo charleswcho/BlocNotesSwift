@@ -78,11 +78,21 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
 //        }
 //    }
     
+    // Add sharing functionality
+    
+    @IBAction func shareNote(sender: UIButton) {
+        let activityViewController = UIActivityViewController(
+            activityItems: [textView.text as NSString],
+            applicationActivities: nil)
+        
+        presentViewController(activityViewController, animated: true, completion: nil)
+        
+    }
     
     // Saving and resigning keyboard
 
     
-    @IBAction func DismissKeyboard(sender: AnyObject) {
+    @IBAction func DismissKeyboard(sender: UIButton) {
         self.view .endEditing(true)
         
     }
@@ -90,10 +100,17 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
     override func viewWillDisappear(animated: Bool) {
         detailItem!.noteText = self.textView.text
         
-        // Save the first 30 characters as the title of the note
-        var textViewString:String = self.textView.text
-        var title: String = (textViewString as NSString).substringToIndex(30)
-        detailItem!.noteTitle = title
+
+        if !self.textView.text.isEmpty {
+            var textViewString:String = self.textView.text
+            
+            // Save the first 30 characters as the title of the note
+            var title: String = (textViewString as NSString).substringToIndex(30)
+            detailItem!.noteTitle = title
+        } else {
+            detailItem!.noteTitle = self.textView.text
+        }
+        
 
 
         var error: NSError? = nil

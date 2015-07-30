@@ -82,11 +82,21 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="What would you like to remember and share?" translatesAutoresizingMaskIntoConstraints="NO" id="05K-4A-HOr">
-                                <rect key="frame" x="20" y="97" width="560" height="483"/>
+                                <rect key="frame" x="20" y="97" width="560" height="441"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOB-gb-XkS">
+                                <rect key="frame" x="276" y="546" width="47" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Share">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="shareNote:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="LaW-DM-uaW"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -95,8 +105,11 @@
                             <constraint firstItem="Lei-5M-9Gs" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leading" constant="20" symbolic="YES" id="62x-JV-TTJ"/>
                             <constraint firstAttribute="centerX" secondItem="Lei-5M-9Gs" secondAttribute="centerX" id="8nx-Ff-ZqK"/>
                             <constraint firstItem="Lei-5M-9Gs" firstAttribute="centerY" secondItem="MMQ-IT-qOo" secondAttribute="centerY" id="JzS-HC-Rnl"/>
+                            <constraint firstAttribute="centerX" secondItem="wOB-gb-XkS" secondAttribute="centerX" constant="0.5" id="MSm-PC-VDz"/>
+                            <constraint firstItem="a0L-h9-sNL" firstAttribute="top" secondItem="wOB-gb-XkS" secondAttribute="bottom" constant="20" id="N0v-9C-XpG"/>
                             <constraint firstItem="Lei-5M-9Gs" firstAttribute="top" secondItem="cIm-e0-J51" secondAttribute="bottom" constant="8" id="Tin-AM-nqU"/>
                             <constraint firstItem="05K-4A-HOr" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leading" constant="20" id="aj3-4x-Uck"/>
+                            <constraint firstItem="wOB-gb-XkS" firstAttribute="top" secondItem="05K-4A-HOr" secondAttribute="bottom" constant="8" id="oW5-fw-W8j"/>
                             <constraint firstAttribute="trailing" secondItem="Lei-5M-9Gs" secondAttribute="trailing" constant="20" symbolic="YES" id="pXB-RP-Zz6"/>
                             <constraint firstAttribute="trailing" secondItem="05K-4A-HOr" secondAttribute="trailing" constant="20" id="pw4-RE-tqU"/>
                             <constraint firstItem="05K-4A-HOr" firstAttribute="top" secondItem="Lei-5M-9Gs" secondAttribute="bottom" constant="8" id="svf-VF-Dwb"/>
@@ -106,6 +119,7 @@
                                 <exclude reference="62x-JV-TTJ"/>
                                 <exclude reference="JzS-HC-Rnl"/>
                                 <exclude reference="pXB-RP-Zz6"/>
+                                <exclude reference="0sY-My-IRo"/>
                             </mask>
                         </variation>
                     </view>
