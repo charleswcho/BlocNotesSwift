@@ -19,6 +19,8 @@
 		BA34933A1B6AD8FB00800939 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3493391B6AD8FB00800939 /* ShareViewController.swift */; };
 		BA34933C1B6AD8FB00800939 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA34933B1B6AD8FB00800939 /* MainInterface.storyboard */; };
 		BA34933F1B6AD8FB00800939 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BA3493351B6AD8FB00800939 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BA3493471B6BFE4D00800939 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3493131B680EFA00800939 /* Note.swift */; };
+		BA3493481B6BFE7300800939 /* BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BA3492EA1B66E74600800939 /* BlocNotes.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,8 +132,8 @@
 				BA3493131B680EFA00800939 /* Note.swift */,
 				BA3492EA1B66E74600800939 /* BlocNotes.xcdatamodeld */,
 				BA3492F11B66E74600800939 /* Main.storyboard */,
-				BA3492F41B66E74600800939 /* Images.xcassets */,
 				BA3492F61B66E74600800939 /* LaunchScreen.xib */,
+				BA3492F41B66E74600800939 /* Images.xcassets */,
 				BA3492E61B66E74600800939 /* Supporting Files */,
 			);
 			path = BlocNotes;
@@ -345,6 +347,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA34933A1B6AD8FB00800939 /* ShareViewController.swift in Sources */,
+				BA3493481B6BFE7300800939 /* BlocNotes.xcdatamodeld in Sources */,
+				BA3493471B6BFE4D00800939 /* Note.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -589,6 +593,7 @@
 				BA3493421B6AD8FB00800939 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

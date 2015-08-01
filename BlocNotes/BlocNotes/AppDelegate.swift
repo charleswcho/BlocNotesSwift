@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Core Data stack
     
     lazy var applicationDocumentsDirectory: NSURL? = {
-        return NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("com.charleswesleycho.BlocNotes") ?? nil
+        return NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.charleswesleycho.BlocNotes") ?? nil
         }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
