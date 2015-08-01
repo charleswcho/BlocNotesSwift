@@ -9,6 +9,7 @@
 import UIKit
 import Social
 import CoreData
+import MobileCoreServices
 
 class ShareViewController: SLComposeServiceViewController, NSFetchedResultsControllerDelegate {
 
@@ -25,8 +26,9 @@ class ShareViewController: SLComposeServiceViewController, NSFetchedResultsContr
 
     override func didSelectPost() {
         // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
-    
+       
         // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
+
         self.extensionContext!.completeRequestReturningItems([], completionHandler: nil)
     }
 
@@ -66,8 +68,26 @@ class ShareViewController: SLComposeServiceViewController, NSFetchedResultsContr
         newManagedObject.setValue(self.contentText, forKey: "noteTitle")
         
         // Adding light grey placeholder text for new notes
-        //
-        newManagedObject.setValue("", forKey: "noteText")
+        
+        var item : NSExtensionItem = self.extensionContext.inputItems[0] as NSExtensionItem
+        var itemProvider : NSItemProvider = item.attachments[0] as NSItemProvider
+        
+        //pull the URL out
+        if (itemProvider.hasItemConformingToTypeIdentifier("public.url")) {
+            itemProvider.loadItemForTypeIdentifier("public.url", options: nil, completionHandler: { (urlItem, error) in
+                var urlString = urlItem.absoluteString
+                //do what you need to do now, such as send a request to your server with this url
+                newManagedObject.setValue(urlString, forKey: "noteText")
+
+            })
+        }
+
+        //get the itemProvider which wraps the url we need
+
+            
+            
+    
+        
         
         // Save the context.
         var error: NSError? = nil

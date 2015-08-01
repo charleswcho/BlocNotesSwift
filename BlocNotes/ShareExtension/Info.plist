@@ -30,8 +30,6 @@
 			<dict>
 				<key>NSExtensionActiviationSupportsText</key>
 				<true/>
-				<key>NSExtensionActiviationSupportsWebPageWithMaxCount</key>
-				<integer>0</integer>
 				<key>NSExtensionActiviationSupportsURLWithMaxCount</key>
 				<integer>1</integer>
 			</dict>
