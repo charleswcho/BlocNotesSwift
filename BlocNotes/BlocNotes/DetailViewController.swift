@@ -105,10 +105,10 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
             var textViewString:String = self.textView.text
             
             // Save the first 30 characters as the title of the note
-            var title: String = (textViewString as NSString).substringToIndex(30)
-            detailItem!.noteTitle = title
-        } else {
-            detailItem!.noteTitle = self.textView.text
+//            var title: String = (textViewString as NSString).substringToIndex(30)
+//            detailItem!.noteTitle = title
+//        } else {
+//            detailItem!.noteTitle = self.textView.text
         }
         
 

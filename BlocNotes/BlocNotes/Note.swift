@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+@objc(Note)
 class Note: NSManagedObject {
 
     @NSManaged var noteText: String

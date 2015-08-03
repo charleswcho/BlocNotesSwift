@@ -54,7 +54,7 @@ class ShareViewController: SLComposeServiceViewController, NSFetchedResultsContr
     func insertNewObject() {
         let context = self.fetchedResultsController.managedObjectContext
         let entity = self.fetchedResultsController.fetchRequest.entity!
-        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as! NSManagedObject
+        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as! Note
         
         // If appropriate, configure the new managed object.
         // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
@@ -78,7 +78,6 @@ class ShareViewController: SLComposeServiceViewController, NSFetchedResultsContr
                 attachment.loadItemForTypeIdentifier(contentType, options: nil, completionHandler: { (urlItem, error) in
                     var urlString = urlItem as! NSURL
                     
-                    //do what you need to do now, such as send a request to your server with this url
                     newManagedObject.setValue(urlString.absoluteString, forKey: "noteText")
                     
                 })
