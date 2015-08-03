@@ -28,10 +28,10 @@
 		<dict>
 			<key>NSExtensionActivationRule</key>
 			<dict>
+				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
+				<integer>1</integer>
 				<key>NSExtensionActiviationSupportsText</key>
 				<true/>
-				<key>NSExtensionActiviationSupportsURLWithMaxCount</key>
-				<integer>1</integer>
 			</dict>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>

@@ -28,7 +28,8 @@ class ShareViewController: SLComposeServiceViewController, NSFetchedResultsContr
         // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
        
         // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
-
+        self.insertNewObject()
+        
         self.extensionContext!.completeRequestReturningItems([], completionHandler: nil)
     }
 
@@ -36,6 +37,7 @@ class ShareViewController: SLComposeServiceViewController, NSFetchedResultsContr
         // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
         return []
     }
+    
     
     func saveContext () {
         if let moc = self.managedObjectContext {
@@ -49,7 +51,7 @@ class ShareViewController: SLComposeServiceViewController, NSFetchedResultsContr
         }
     }
     
-    func insertNewObject(sender: AnyObject) {
+    func insertNewObject() {
         let context = self.fetchedResultsController.managedObjectContext
         let entity = self.fetchedResultsController.fetchRequest.entity!
         let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as! NSManagedObject
@@ -68,26 +70,21 @@ class ShareViewController: SLComposeServiceViewController, NSFetchedResultsContr
         newManagedObject.setValue(self.contentText, forKey: "noteTitle")
         
         // Adding light grey placeholder text for new notes
+        let content = extensionContext!.inputItems[0] as! NSExtensionItem
+        let contentType = kUTTypeURL as String
         
-        var item : NSExtensionItem = self.extensionContext.inputItems[0] as NSExtensionItem
-        var itemProvider : NSItemProvider = item.attachments[0] as NSItemProvider
-        
-        //pull the URL out
-        if (itemProvider.hasItemConformingToTypeIdentifier("public.url")) {
-            itemProvider.loadItemForTypeIdentifier("public.url", options: nil, completionHandler: { (urlItem, error) in
-                var urlString = urlItem.absoluteString
-                //do what you need to do now, such as send a request to your server with this url
-                newManagedObject.setValue(urlString, forKey: "noteText")
+        for attachment in content.attachments as! [NSItemProvider]{
+            if attachment.hasItemConformingToTypeIdentifier(contentType){
+                attachment.loadItemForTypeIdentifier(contentType, options: nil, completionHandler: { (urlItem, error) in
+                    var urlString = urlItem as! NSURL
+                    
+                    //do what you need to do now, such as send a request to your server with this url
+                    newManagedObject.setValue(urlString.absoluteString, forKey: "noteText")
+                    
+                })
 
-            })
+            }
         }
-
-        //get the itemProvider which wraps the url we need
-
-            
-            
-    
-        
         
         // Save the context.
         var error: NSError? = nil
