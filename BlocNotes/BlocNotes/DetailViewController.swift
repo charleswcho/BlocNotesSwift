@@ -45,13 +45,13 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         textView.delegate = self
 
         if let detail: Note = self.detailItem {
-            self.textView.text = detail.noteText
             
-//            if detail.noteText == placeHolderText {
-//                textView.textColor == UIColor.lightGrayColor()
-//            } else {
-//                self.textView.text = detail.noteText
-//            }
+            if detail.noteText == placeHolderText {
+                textView.textColor == UIColor.lightGrayColor()
+            } else {
+                self.textView.text = detail.noteText
+                self.textView.textColor = UIColor.blackColor()
+            }
         }
         
         
@@ -61,22 +61,25 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
     
     // Clear the placeholder text and set the text color to black to accommodate the user's entry.
     
-//    func textViewDidBeginEditing(textView: UITextView) {
-//        if  textView.textColor == UIColor.lightGrayColor() {
-//            textView.text = nil
-//            textView.textColor = UIColor.blackColor()
-//        } else {
-//            textView.textColor = UIColor.blackColor()
-//        }
-//    }
+    func textViewDidBeginEditing(textView: UITextView) {
+        if let detail: Note = self.detailItem {
+            
+            if detail.noteText == placeHolderText {
+                detail.noteText = ""
+                textView.text = ""
+                self.textView.textColor = UIColor.blackColor()
+            }
+        }
+    }
+
     // Reset its placeholder by re-adding the placeholder text and setting its color to light gray.
     
-//    func textViewDidEndEditing(textView: UITextView) {
-//        if textView.text.isEmpty {
-//            textView.text = "What did you want to remember and share today?"
-//            textView.textColor = UIColor.lightGrayColor()
-//        }
-//    }
+    func textViewDidEndEditing(textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "What did you want to remember and share today?"
+            textView.textColor = UIColor.lightGrayColor()
+        }
+    }
     
     // Add sharing functionality
     
@@ -104,11 +107,12 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         if !self.textView.text.isEmpty {
             var textViewString:String = self.textView.text
             
-            // Save the first 30 characters as the title of the note
-//            var title: String = (textViewString as NSString).substringToIndex(30)
-//            detailItem!.noteTitle = title
-//        } else {
-//            detailItem!.noteTitle = self.textView.text
+            if let range = self.textView.text.rangeOfString("\n") {
+                let rangeOfString = self.textView.text.startIndex ..< range.endIndex
+                let firstLine = self.textView.text.substringWithRange(rangeOfString)
+                
+                detailItem?.noteTitle = firstLine
+            }
         }
         
 

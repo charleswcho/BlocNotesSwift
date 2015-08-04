@@ -30,7 +30,7 @@ class ShareViewController: SLComposeServiceViewController, NSFetchedResultsContr
         // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
         self.insertNewObject()
         
-        self.extensionContext!.completeRequestReturningItems([], completionHandler: nil)
+        //self.extensionContext!.completeRequestReturningItems([], completionHandler: nil)
     }
 
     override func configurationItems() -> [AnyObject]! {
@@ -78,7 +78,18 @@ class ShareViewController: SLComposeServiceViewController, NSFetchedResultsContr
                 attachment.loadItemForTypeIdentifier(contentType, options: nil, completionHandler: { (urlItem, error) in
                     var urlString = urlItem as! NSURL
                     
-                    newManagedObject.setValue(urlString.absoluteString, forKey: "noteText")
+                    var noteBody = "\(self.contentText)\n\(urlString.absoluteString!)"
+                    newManagedObject.setValue(noteBody, forKey: "noteText")
+                    
+                    var error: NSError? = nil
+                    if !context.save(&error) {
+                        // Replace this implementation with code to handle the error appropriately.
+                        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                        //println("Unresolved error \(error), \(error.userInfo)")
+                        abort()
+                    }
+                    
+                    self.extensionContext!.completeRequestReturningItems([], completionHandler: nil)
                     
                 })
 
@@ -119,7 +130,7 @@ class ShareViewController: SLComposeServiceViewController, NSFetchedResultsContr
         
         // Edit the section name key path and cache name if appropriate.
         // nil for section name key path means "no sections".
-        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: "Master")
+        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
         
