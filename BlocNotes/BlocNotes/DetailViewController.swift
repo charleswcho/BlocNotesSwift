@@ -94,7 +94,6 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
     
     // Saving and resigning keyboard
 
-    
     @IBAction func DismissKeyboard(sender: UIButton) {
         self.view .endEditing(true)
         
@@ -115,8 +114,6 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
             }
         }
         
-
-
         var error: NSError? = nil
         if !self.managedObjectContext!.save(&error) {
             abort()

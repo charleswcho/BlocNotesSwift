@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		BA3492E91B66E74600800939 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3492E81B66E74600800939 /* AppDelegate.swift */; };
-		BA3492EC1B66E74600800939 /* BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BA3492EA1B66E74600800939 /* BlocNotes.xcdatamodeld */; };
 		BA3492EE1B66E74600800939 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3492ED1B66E74600800939 /* MasterViewController.swift */; };
 		BA3492F01B66E74600800939 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3492EF1B66E74600800939 /* DetailViewController.swift */; };
 		BA3492F31B66E74600800939 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA3492F11B66E74600800939 /* Main.storyboard */; };
@@ -20,7 +19,7 @@
 		BA34933C1B6AD8FB00800939 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA34933B1B6AD8FB00800939 /* MainInterface.storyboard */; };
 		BA34933F1B6AD8FB00800939 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BA3493351B6AD8FB00800939 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BA3493471B6BFE4D00800939 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3493131B680EFA00800939 /* Note.swift */; };
-		BA3493481B6BFE7300800939 /* BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BA3492EA1B66E74600800939 /* BlocNotes.xcdatamodeld */; };
+		BAFE33B21B7291D5009DE178 /* BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +57,6 @@
 		BA3492E31B66E74600800939 /* BlocNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlocNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA3492E71B66E74600800939 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA3492E81B66E74600800939 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BA3492EB1B66E74600800939 /* BlocNotes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BlocNotes.xcdatamodel; sourceTree = "<group>"; };
 		BA3492ED1B66E74600800939 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		BA3492EF1B66E74600800939 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		BA3492F21B66E74600800939 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -68,13 +66,13 @@
 		BA3493021B66E74600800939 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA3493031B66E74600800939 /* BlocNotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlocNotesTests.swift; sourceTree = "<group>"; };
 		BA3493131B680EFA00800939 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
-		BA3493171B69A5F700800939 /* BlocNotes 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BlocNotes 2.xcdatamodel"; sourceTree = "<group>"; };
 		BA3493351B6AD8FB00800939 /* ShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA3493381B6AD8FB00800939 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA3493391B6AD8FB00800939 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		BA34933B1B6AD8FB00800939 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		BA3493441B6AD9F300800939 /* ShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ShareExtension.entitlements; sourceTree = "<group>"; };
 		BA3493451B6AD9FC00800939 /* BlocNotes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BlocNotes.entitlements; sourceTree = "<group>"; };
+		BAFE33B11B7291D5009DE178 /* BlocNotes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BlocNotes.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +128,7 @@
 				BA3492ED1B66E74600800939 /* MasterViewController.swift */,
 				BA3492EF1B66E74600800939 /* DetailViewController.swift */,
 				BA3493131B680EFA00800939 /* Note.swift */,
-				BA3492EA1B66E74600800939 /* BlocNotes.xcdatamodeld */,
+				BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */,
 				BA3492F11B66E74600800939 /* Main.storyboard */,
 				BA3492F61B66E74600800939 /* LaunchScreen.xib */,
 				BA3492F41B66E74600800939 /* Images.xcassets */,
@@ -328,7 +326,7 @@
 			files = (
 				BA3493141B680EFA00800939 /* Note.swift in Sources */,
 				BA3492E91B66E74600800939 /* AppDelegate.swift in Sources */,
-				BA3492EC1B66E74600800939 /* BlocNotes.xcdatamodeld in Sources */,
+				BAFE33B21B7291D5009DE178 /* BlocNotes.xcdatamodeld in Sources */,
 				BA3492EE1B66E74600800939 /* MasterViewController.swift in Sources */,
 				BA3492F01B66E74600800939 /* DetailViewController.swift in Sources */,
 			);
@@ -347,7 +345,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA34933A1B6AD8FB00800939 /* ShareViewController.swift in Sources */,
-				BA3493481B6BFE7300800939 /* BlocNotes.xcdatamodeld in Sources */,
 				BA3493471B6BFE4D00800939 /* Note.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -598,13 +595,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		BA3492EA1B66E74600800939 /* BlocNotes.xcdatamodeld */ = {
+		BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				BA3493171B69A5F700800939 /* BlocNotes 2.xcdatamodel */,
-				BA3492EB1B66E74600800939 /* BlocNotes.xcdatamodel */,
+				BAFE33B11B7291D5009DE178 /* BlocNotes.xcdatamodel */,
 			);
-			currentVersion = BA3493171B69A5F700800939 /* BlocNotes 2.xcdatamodel */;
+			currentVersion = BAFE33B11B7291D5009DE178 /* BlocNotes.xcdatamodel */;
 			path = BlocNotes.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

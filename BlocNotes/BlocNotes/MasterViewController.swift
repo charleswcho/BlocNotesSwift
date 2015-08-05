@@ -9,10 +9,17 @@
 import UIKit
 import CoreData
 
-class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchDisplayDelegate, UISearchBarDelegate, UISearchResultsUpdating {
 
+    var detailViewController: DetailViewController? = nil
+    
     var managedObjectContext: NSManagedObjectContext? = nil
-
+    // Added search Controller
+    var searchController: UISearchController!
+    var searchPredicate: NSPredicate?
+    
+    var filteredNotes: [Note]? = nil
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -20,6 +27,16 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        // UISearchController
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.sizeToFit()
+        self.tableView.tableHeaderView = searchController?.searchBar
+        self.tableView.delegate = self
+        self.definesPresentationContext = true
+        
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
@@ -69,11 +86,23 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
-                let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
                 
-                (segue.destinationViewController as! DetailViewController).detailItem = object as? Note
+                // Added ----------------------- Here
+                // All notes displayed
+                var note: Note!
+                // If searchBar IS NOT active
+                if (filteredNotes == nil) {
+                    note = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Note
+                } else {
+                    // If searchBar IS active
+                    note = filteredNotes![indexPath.row] as Note
+                    println("SearchPredicate returned")
+                }
+                
+                (segue.destinationViewController as! DetailViewController).detailItem = note
                 (segue.destinationViewController as! DetailViewController).managedObjectContext = self.fetchedResultsController.managedObjectContext
-                
+                searchController.active = false // dismisses searchBar when cell selected
+
             }
         }
     }
@@ -85,13 +114,28 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = self.fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
-        return sectionInfo.numberOfObjects
+        
+        // Added ----------------------- Here
+        if self.searchPredicate == nil {
+            let sectionInfo = self.fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
+            return sectionInfo.numberOfObjects
+        } else {
+            return filteredNotes?.count ?? 0
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
-        self.configureCell(cell, atIndexPath: indexPath)
+        
+        // Added ----------------------- Here
+        if searchPredicate == nil {
+            self.configureCell(cell, atIndexPath: indexPath)
+        } else {
+            // configure the cell based on filteredObjects data
+            if let note = self.filteredNotes?[indexPath.row] {
+                cell.textLabel?.text = note.noteTitle
+            }
+        }
         return cell
     }
 
@@ -102,9 +146,18 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
+            var note: Note
+            if searchPredicate == nil {
+                note = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Note
+            } else {
+                let filteredNotes = self.fetchedResultsController.fetchedObjects?.filter() {
+                    return self.searchPredicate!.evaluateWithObject($0)
+                }
+                note = filteredNotes![indexPath.row] as! Note
+            }
             let context = self.fetchedResultsController.managedObjectContext
-            context.deleteObject(self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject)
-                
+            context.deleteObject(note)
+   
             var error: NSError? = nil
             if !context.save(&error) {
                 // Replace this implementation with code to handle the error appropriately.
@@ -119,7 +172,25 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
         cell.textLabel!.text = object.valueForKey("noteTitle")!.description
     }
-
+    
+    // MARK: - Table View: Search bar
+    
+    // UISearchResultsUpdating Delegate Method
+    // Called when the search bar's text or scope has changed or when the search bar becomes first responder.
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        let searchText = self.searchController?.searchBar.text
+        println(searchController.searchBar.text)
+        if let searchText = searchText {
+            searchPredicate = NSPredicate(format: "noteText contains[c] %@ OR noteTitle contains[c] %@", searchText, searchText)
+            filteredNotes = self.fetchedResultsController.fetchedObjects?.filter() {
+                return self.searchPredicate!.evaluateWithObject($0)
+                } as! [Note]?
+            self.tableView.reloadData()
+            println(searchPredicate)
+        }
+    }
+    
+    
     // MARK: - Fetched results controller
 
     var fetchedResultsController: NSFetchedResultsController {
@@ -150,8 +221,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     	var error: NSError? = nil
     	if !_fetchedResultsController!.performFetch(&error) {
     	     // Replace this implementation with code to handle the error appropriately.
-    	     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-             //println("Unresolved error \(error), \(error.userInfo)")
+    	     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+             println("Unresolved error \(error), \(error?.userInfo)")
     	     abort()
     	}
         
@@ -160,10 +231,23 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     var _fetchedResultsController: NSFetchedResultsController? = nil
 
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        self.tableView.beginUpdates()
+        if searchPredicate == nil {
+            tableView.beginUpdates()
+        } else {
+            (searchController.searchResultsUpdater as! MasterViewController).tableView.beginUpdates()
+        }
     }
 
     func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        
+        // Added ----------------------- Here
+        var tableView = UITableView()
+        if searchPredicate == nil {
+            tableView = self.tableView
+        } else {
+            tableView = (searchController.searchResultsUpdater as! MasterViewController).tableView
+        }
+        
         switch type {
             case .Insert:
                 self.tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
@@ -175,13 +259,30 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        
+        // Added ----------------------- Here
+        var tableView = UITableView()
+        
+        if self.searchPredicate == nil {
+            tableView = self.tableView
+        } else {
+            tableView = (self.searchController.searchResultsUpdater as! MasterViewController).tableView
+        }
+        
         switch type {
             case .Insert:
                 tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
             case .Delete:
                 tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             case .Update:
-                self.configureCell(tableView.cellForRowAtIndexPath(indexPath!)!, atIndexPath: indexPath!)
+                
+                // Added ----------------------- Here
+                if searchPredicate == nil {
+                    self.configureCell(tableView.cellForRowAtIndexPath(indexPath!)!, atIndexPath: indexPath!) // original code
+                } else {
+                    println("Didn't update cell")
+            }
+            
             case .Move:
                 tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
                 tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
@@ -192,16 +293,38 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         self.tableView.endUpdates()
+        if self.searchPredicate == nil {
+            self.tableView.endUpdates()
+        } else {
+            println("controllerDidChangeContent")
+            (self.searchController.searchResultsUpdater as! MasterViewController).tableView.endUpdates()
+        }
+    }
+    
+    // MARK: - UISearchBar Delegate methods
+    
+    func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        updateSearchResultsForSearchController(self.searchController)
+    }
+    
+    // This resets searchPredicate & filteredObjects when the SearchController is dismissed
+    func didDismissSearchController(searchController: UISearchController) {
+        println("didDismissSearchController")
+        self.searchPredicate = nil
+        self.filteredNotes = nil
+        self.tableView.reloadData()
+    }
+    
+    // MARK: - UISearchControllerDelegate
+    
+    func presentSearchController(searchController: UISearchController) {
+        println("presentSearchController")
+    }
+    
+    func willPresentSearchController(searchController: UISearchController) {
+        println("willPresentSearchController")
     }
 
-    /*
-     // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
-     
-     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-         // In the simplest, most efficient, case, reload the table view.
-         self.tableView.reloadData()
-     }
-     */
 
 }
 
