@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchDisplayDelegate, UISearchBarDelegate, UISearchResultsUpdating {
+class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate, UISearchControllerDelegate, UISearchBarDelegate, UISearchResultsUpdating {
 
     var detailViewController: DetailViewController? = nil
     
@@ -28,6 +28,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
+        self.navigationItem.rightBarButtonItem = addButton
+        
+        // Setup delegates
+        tableView.delegate = self
+        
         // UISearchController
         searchController = UISearchController(searchResultsController: nil)
         searchController.dimsBackgroundDuringPresentation = false
@@ -37,11 +45,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         self.tableView.delegate = self
         self.definesPresentationContext = true
         
-        self.navigationItem.leftBarButtonItem = self.editButtonItem()
-
-        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
-        self.navigationItem.rightBarButtonItem = addButton
-        
+        // Question, what is this for? ------------------------
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"load", object: nil)
+    }
+    
+    func loadList(notification: NSNotification){
+        //load data here
+        self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,7 +62,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     func insertNewObject(sender: UIBarButtonItem) {
         let context = self.fetchedResultsController.managedObjectContext
         let entity = self.fetchedResultsController.fetchRequest.entity!
-        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as! Note
+        let newNote = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as! Note
              
         // If appropriate, configure the new managed object.
         // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
@@ -64,12 +74,12 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 //        dateFormatter.dateFormat = "MMM d, yyyy, h:mm a"
 //        let date = dateFormatter.dateFromString(dateAsString)
      
-        newManagedObject.setValue(NSDate(), forKey: "timeStamp")
-        newManagedObject.setValue("Untitled note", forKey: "noteTitle")
+        newNote.setValue(NSDate(), forKey: "timeStamp")
+        newNote.setValue("Untitled note", forKey: "noteTitle")
         
         // Adding light grey placeholder text for new notes
                 //
-        newManagedObject.setValue("What do you want to remember and share today?", forKey: "noteText")
+        newNote.setValue("What do you want to remember and share today?", forKey: "noteText")
         
         // Save the context.
         var error: NSError? = nil
@@ -84,26 +94,26 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     // MARK: - Segues
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
                 
                 // Added ----------------------- Here
                 // All notes displayed
                 var note: Note!
-                // If searchBar IS NOT active
-                if (filteredNotes == nil) {
-                    note = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Note
-                } else {
-                    // If searchBar IS active
+                if (self.searchController.active) {  // searchBar active
                     note = filteredNotes![indexPath.row] as Note
-                    println("SearchPredicate returned")
+                    
+                } else {                            // searchBar NOT active
+                    note = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Note
                 }
                 
                 (segue.destinationViewController as! DetailViewController).detailItem = note
                 (segue.destinationViewController as! DetailViewController).managedObjectContext = self.fetchedResultsController.managedObjectContext
-                searchController.active = false // dismisses searchBar when cell selected
 
             }
+            self.didDismissSearchController(searchController)
+            searchController.active = false // dismisses searchBar when cell selected
         }
     }
     
@@ -111,6 +121,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return self.fetchedResultsController.sections?.count ?? 0
+
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -130,13 +141,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         // Added ----------------------- Here
         if searchPredicate == nil {
             self.configureCell(cell, atIndexPath: indexPath)
+            return cell
         } else {
             // configure the cell based on filteredObjects data
             if let note = self.filteredNotes?[indexPath.row] {
                 cell.textLabel?.text = note.noteTitle
             }
+            return cell
         }
-        return cell
     }
 
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -181,10 +193,12 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         let searchText = self.searchController?.searchBar.text
         println(searchController.searchBar.text)
         if let searchText = searchText {
+            
             searchPredicate = NSPredicate(format: "noteText contains[c] %@ OR noteTitle contains[c] %@", searchText, searchText)
             filteredNotes = self.fetchedResultsController.fetchedObjects?.filter() {
                 return self.searchPredicate!.evaluateWithObject($0)
                 } as! [Note]?
+            
             self.tableView.reloadData()
             println(searchPredicate)
         }
