@@ -19,6 +19,7 @@
 		BA34933C1B6AD8FB00800939 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA34933B1B6AD8FB00800939 /* MainInterface.storyboard */; };
 		BA34933F1B6AD8FB00800939 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BA3493351B6AD8FB00800939 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BA3493471B6BFE4D00800939 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3493131B680EFA00800939 /* Note.swift */; };
+		BAC3F89F1B73DF1700A83FD8 /* BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */; };
 		BAFE33B21B7291D5009DE178 /* BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -345,6 +346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA34933A1B6AD8FB00800939 /* ShareViewController.swift in Sources */,
+				BAC3F89F1B73DF1700A83FD8 /* BlocNotes.xcdatamodeld in Sources */,
 				BA3493471B6BFE4D00800939 /* Note.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
