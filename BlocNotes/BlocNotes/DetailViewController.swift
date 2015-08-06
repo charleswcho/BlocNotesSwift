@@ -106,19 +106,19 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         if !self.textView.text.isEmpty {
             var textViewString:String = self.textView.text
             
-            if let range = self.textView.text.rangeOfString("\n") {
+            if let range = self.textView.text.rangeOfString("\n") {  // Save a title after hitting return/enter
                 let rangeOfString = self.textView.text.startIndex ..< range.endIndex
                 let firstLine = self.textView.text.substringWithRange(rangeOfString)
                 
                 detailItem?.noteTitle = firstLine
             } else {
-                // take up to the first 30 characters as the title
                 let length = count(self.textView.text)
                 if length > 30 {
-                    let firstLine = (textView.text as NSString).substringFromIndex(30)
+                    let firstLine = (textView.text as NSString).substringToIndex(30) // first 30 characters as the title
+
                     detailItem?.noteTitle = firstLine
                 } else {
-                    let firstLine = (textView.text as NSString).substringFromIndex(length)
+                    let firstLine = (textView.text as NSString).substringToIndex(length)  // else any characters with a total length < 30
                     detailItem?.noteTitle = firstLine
                 }
             }
