@@ -23,16 +23,27 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func awakeFromNib() {
         super.awakeFromNib()
     }
+    
+    // Auto hide search bar
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tableView.setContentOffset(CGPointMake(0, 44), animated: animated)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
-        self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        // Make Navigation bar transparent
+        let bar:UINavigationBar! =  self.navigationController?.navigationBar
+        bar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        bar.shadowImage = UIImage()
         
+        // Set background image
+        self.tableView.backgroundView = UIImageView(image: UIImage(named: "2.jpg"))
+      
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
-        
+
         // Setup delegates
         tableView.delegate = self
         
@@ -133,6 +144,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
        // if self.searchPredicate == nil {
             let sectionInfo = self.fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
             return sectionInfo.numberOfObjects
+            
         } else {
             return filteredNotes?.count ?? 0
         }

@@ -43,6 +43,15 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
         textView.delegate = self
+        
+        
+        // A color gradient to Detail View
+        let colors = Colors()
+    
+        view.backgroundColor = UIColor.clearColor()
+        var backgroundLayer = colors.gl
+        backgroundLayer.frame = view.frame
+        view.layer.insertSublayer(backgroundLayer, atIndex: 0)
 
         if let detail: Note = self.detailItem {
             

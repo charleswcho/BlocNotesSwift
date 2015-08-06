@@ -19,6 +19,7 @@
 		BA34933C1B6AD8FB00800939 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA34933B1B6AD8FB00800939 /* MainInterface.storyboard */; };
 		BA34933F1B6AD8FB00800939 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BA3493351B6AD8FB00800939 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BA3493471B6BFE4D00800939 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3493131B680EFA00800939 /* Note.swift */; };
+		BAC3F89E1B72DFC000A83FD8 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC3F89D1B72DFC000A83FD8 /* Colors.swift */; };
 		BAFE33B21B7291D5009DE178 /* BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,7 @@
 		BA34933B1B6AD8FB00800939 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		BA3493441B6AD9F300800939 /* ShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ShareExtension.entitlements; sourceTree = "<group>"; };
 		BA3493451B6AD9FC00800939 /* BlocNotes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BlocNotes.entitlements; sourceTree = "<group>"; };
+		BAC3F89D1B72DFC000A83FD8 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		BAFE33B11B7291D5009DE178 /* BlocNotes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BlocNotes.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,6 +131,7 @@
 				BA3492EF1B66E74600800939 /* DetailViewController.swift */,
 				BA3493131B680EFA00800939 /* Note.swift */,
 				BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */,
+				BAC3F89D1B72DFC000A83FD8 /* Colors.swift */,
 				BA3492F11B66E74600800939 /* Main.storyboard */,
 				BA3492F61B66E74600800939 /* LaunchScreen.xib */,
 				BA3492F41B66E74600800939 /* Images.xcassets */,
@@ -325,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA3493141B680EFA00800939 /* Note.swift in Sources */,
+				BAC3F89E1B72DFC000A83FD8 /* Colors.swift in Sources */,
 				BA3492E91B66E74600800939 /* AppDelegate.swift in Sources */,
 				BAFE33B21B7291D5009DE178 /* BlocNotes.xcdatamodeld in Sources */,
 				BA3492EE1B66E74600800939 /* MasterViewController.swift in Sources */,
