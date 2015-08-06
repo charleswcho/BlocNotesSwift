@@ -12,7 +12,6 @@
 		BA3492F01B66E74600800939 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3492EF1B66E74600800939 /* DetailViewController.swift */; };
 		BA3492F31B66E74600800939 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA3492F11B66E74600800939 /* Main.storyboard */; };
 		BA3492F51B66E74600800939 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA3492F41B66E74600800939 /* Images.xcassets */; };
-		BA3492F81B66E74600800939 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BA3492F61B66E74600800939 /* LaunchScreen.xib */; };
 		BA3493041B66E74600800939 /* BlocNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3493031B66E74600800939 /* BlocNotesTests.swift */; };
 		BA3493141B680EFA00800939 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3493131B680EFA00800939 /* Note.swift */; };
 		BA34933A1B6AD8FB00800939 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3493391B6AD8FB00800939 /* ShareViewController.swift */; };
@@ -20,6 +19,8 @@
 		BA34933F1B6AD8FB00800939 /* ShareExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = BA3493351B6AD8FB00800939 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BA3493471B6BFE4D00800939 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3493131B680EFA00800939 /* Note.swift */; };
 		BAC3F89F1B73DF1700A83FD8 /* BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */; };
+		BAC3F8A11B73E6ED00A83FD8 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC3F8A01B73E6ED00A83FD8 /* Colors.swift */; };
+		BAC3F8A31B73E94900A83FD8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAC3F8A21B73E94900A83FD8 /* LaunchScreen.xib */; };
 		BAFE33B21B7291D5009DE178 /* BlocNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -62,7 +63,6 @@
 		BA3492EF1B66E74600800939 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		BA3492F21B66E74600800939 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BA3492F41B66E74600800939 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		BA3492F71B66E74600800939 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		BA3492FD1B66E74600800939 /* BlocNotesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlocNotesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA3493021B66E74600800939 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA3493031B66E74600800939 /* BlocNotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlocNotesTests.swift; sourceTree = "<group>"; };
@@ -73,6 +73,8 @@
 		BA34933B1B6AD8FB00800939 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		BA3493441B6AD9F300800939 /* ShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ShareExtension.entitlements; sourceTree = "<group>"; };
 		BA3493451B6AD9FC00800939 /* BlocNotes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = BlocNotes.entitlements; sourceTree = "<group>"; };
+		BAC3F8A01B73E6ED00A83FD8 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		BAC3F8A21B73E94900A83FD8 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		BAFE33B11B7291D5009DE178 /* BlocNotes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BlocNotes.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,9 +131,10 @@
 				BA3492ED1B66E74600800939 /* MasterViewController.swift */,
 				BA3492EF1B66E74600800939 /* DetailViewController.swift */,
 				BA3493131B680EFA00800939 /* Note.swift */,
+				BAC3F8A01B73E6ED00A83FD8 /* Colors.swift */,
 				BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */,
 				BA3492F11B66E74600800939 /* Main.storyboard */,
-				BA3492F61B66E74600800939 /* LaunchScreen.xib */,
+				BAC3F8A21B73E94900A83FD8 /* LaunchScreen.xib */,
 				BA3492F41B66E74600800939 /* Images.xcassets */,
 				BA3492E61B66E74600800939 /* Supporting Files */,
 			);
@@ -298,7 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA3492F31B66E74600800939 /* Main.storyboard in Resources */,
-				BA3492F81B66E74600800939 /* LaunchScreen.xib in Resources */,
+				BAC3F8A31B73E94900A83FD8 /* LaunchScreen.xib in Resources */,
 				BA3492F51B66E74600800939 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -326,6 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA3493141B680EFA00800939 /* Note.swift in Sources */,
+				BAC3F8A11B73E6ED00A83FD8 /* Colors.swift in Sources */,
 				BA3492E91B66E74600800939 /* AppDelegate.swift in Sources */,
 				BAFE33B21B7291D5009DE178 /* BlocNotes.xcdatamodeld in Sources */,
 				BA3492EE1B66E74600800939 /* MasterViewController.swift in Sources */,
@@ -373,14 +377,6 @@
 				BA3492F21B66E74600800939 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		BA3492F61B66E74600800939 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BA3492F71B66E74600800939 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

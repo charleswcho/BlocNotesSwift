@@ -45,6 +45,14 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         self.configureView()
         textView.delegate = self
 
+        // A color gradient to Detail View
+        let colors = Colors()
+        
+        view.backgroundColor = UIColor.clearColor()
+        var backgroundLayer = colors.gl
+        backgroundLayer.frame = view.frame
+        view.layer.insertSublayer(backgroundLayer, atIndex: 0)
+        
         // When view loads actionable text will be displayed
         self.textView.editable = false
         self.textView.dataDetectorTypes = UIDataDetectorTypes.All
