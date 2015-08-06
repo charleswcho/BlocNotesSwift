@@ -111,6 +111,16 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
                 let firstLine = self.textView.text.substringWithRange(rangeOfString)
                 
                 detailItem?.noteTitle = firstLine
+            } else {
+                // take up to the first 30 characters as the title
+                let length = count(self.textView.text)
+                if length > 30 {
+                    let firstLine = (textView.text as NSString).substringFromIndex(30)
+                    detailItem?.noteTitle = firstLine
+                } else {
+                    let firstLine = (textView.text as NSString).substringFromIndex(length)
+                    detailItem?.noteTitle = firstLine
+                }
             }
         }
         

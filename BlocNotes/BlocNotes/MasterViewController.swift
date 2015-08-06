@@ -40,6 +40,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         searchController = UISearchController(searchResultsController: nil)
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         searchController.searchBar.sizeToFit()
         self.tableView.tableHeaderView = searchController?.searchBar
         self.tableView.delegate = self
@@ -112,8 +113,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 (segue.destinationViewController as! DetailViewController).managedObjectContext = self.fetchedResultsController.managedObjectContext
 
             }
-            self.didDismissSearchController(searchController)
-            searchController.active = false // dismisses searchBar when cell selected
+            //self.didDismissSearchController(searchController)
+            //searchController.active = false // dismisses searchBar when cell selected
         }
     }
     
@@ -127,7 +128,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         // Added ----------------------- Here
-        if self.searchPredicate == nil {
+        if (!self.searchController.active) {  // searchBar active
+
+       // if self.searchPredicate == nil {
             let sectionInfo = self.fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
             return sectionInfo.numberOfObjects
         } else {
@@ -139,7 +142,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         
         // Added ----------------------- Here
-        if searchPredicate == nil {
+        if (!self.searchController.active) {  // searchBar active
+
+        //if searchPredicate == nil {
             self.configureCell(cell, atIndexPath: indexPath)
             return cell
         } else {
@@ -153,13 +158,18 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
+        if searchController.active {
+            return false
+        }
         return true
     }
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             var note: Note
-            if searchPredicate == nil {
+            if (!self.searchController.active) {  // searchBar active
+
+            //if searchPredicate == nil {
                 note = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Note
             } else {
                 let filteredNotes = self.fetchedResultsController.fetchedObjects?.filter() {
@@ -190,6 +200,10 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     // UISearchResultsUpdating Delegate Method
     // Called when the search bar's text or scope has changed or when the search bar becomes first responder.
     func updateSearchResultsForSearchController(searchController: UISearchController) {
+        if (!self.searchController.active) {  // searchBar active
+
+            println("updateSearch called when not active")
+        }
         let searchText = self.searchController?.searchBar.text
         println(searchController.searchBar.text)
         if let searchText = searchText {
@@ -319,6 +333,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     
     func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
         updateSearchResultsForSearchController(self.searchController)
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        self.searchController.active = false;
+        self.searchPredicate = nil
+        self.filteredNotes = nil
+        self.tableView.reloadData()
     }
     
     // This resets searchPredicate & filteredObjects when the SearchController is dismissed
