@@ -13,6 +13,7 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
 
     var managedObjectContext: NSManagedObjectContext? = nil
     var placeHolderText = "What do you want to remember and share today?"
+    var actionableText = UIDataDetectorTypes()
     
     @IBOutlet weak var detailDescriptionLabel: UILabel!
     @IBOutlet var textView: UITextView!
@@ -43,6 +44,10 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
         textView.delegate = self
+
+        // When view loads actionable text will be displayed
+        self.textView.editable = false
+        self.textView.dataDetectorTypes = UIDataDetectorTypes.All
 
         if let detail: Note = self.detailItem {
             
@@ -96,6 +101,10 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
 
     @IBAction func DismissKeyboard(sender: UIButton) {
         self.view .endEditing(true)
+        
+        // Done button pressed will activate UIDataDetectors
+        self.textView.editable = false
+        self.textView.dataDetectorTypes = UIDataDetectorTypes.All
         
     }
 
