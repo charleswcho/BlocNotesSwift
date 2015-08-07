@@ -43,6 +43,9 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
         textView.delegate = self
+        
+        self.textView.editable = false
+        self.textView.dataDetectorTypes = UIDataDetectorTypes.All
 
 //        // A color gradient to Detail View
 //        let colors = Colors()
@@ -109,6 +112,13 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
     
     // Saving and resigning keyboard
 
+    @IBAction func didTapToEdit(sender: UITapGestureRecognizer) {
+        
+        self.textView.dataDetectorTypes = UIDataDetectorTypes.None
+        self.textView.editable = true
+        [self.textView .becomeFirstResponder()]
+    }
+    
     func textViewDidBeginEditing(textView: UITextView) {
         let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "DismissKeyboard:")
         self.navigationItem.rightBarButtonItem = doneButton
@@ -117,6 +127,10 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
     
     func textViewDidEndEditing(textView: UITextView) {
          self.navigationItem.rightBarButtonItem = nil
+        
+         self.textView.editable = false
+         self.textView.dataDetectorTypes = UIDataDetectorTypes.All
+
     }
     
     @IBAction func DismissKeyboard(UIBarButtonItem) {
@@ -125,8 +139,6 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         // Done button pressed will activate UIDataDetectors
         // Find actionable text and format
 
-        self.textView.editable = false
-        self.textView.dataDetectorTypes = UIDataDetectorTypes.All
     }
     
 

@@ -118,6 +118,9 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="J4A-zX-7h4" appends="YES" id="5r5-06-Wi0"/>
+                                </connections>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -158,15 +161,15 @@
                         </variation>
                     </view>
                     <toolbarItems>
-                        <barButtonItem title="Item" id="lVB-S2-I4k"/>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="9H4-ac-Ohn"/>
+                        <barButtonItem title="Item" width="50" id="lVB-S2-I4k"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="GKY-8y-4Ov"/>
                         <barButtonItem title="Share" id="snW-d0-1gj">
                             <connections>
                                 <action selector="shareNote:" destination="Ah7-4n-0Wa" id="dRa-e0-iCf"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="jGd-Ww-v6L"/>
-                        <barButtonItem title="Item" id="7Mv-i8-4xX"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="FHx-MM-X2O"/>
+                        <barButtonItem title="Item" width="50" id="7Mv-i8-4xX"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="cra-N8-TIN"/>
                     <connections>
@@ -175,6 +178,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrm-kH-fPn" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="J4A-zX-7h4">
+                    <connections>
+                        <action selector="didTapToEdit:" destination="Ah7-4n-0Wa" id="jAJ-Ui-mow"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1343" y="64"/>
         </scene>
