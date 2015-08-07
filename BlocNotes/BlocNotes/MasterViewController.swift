@@ -24,10 +24,15 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         super.awakeFromNib()
     }
     
-    // Auto hide search bar
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.tableView.setContentOffset(CGPointMake(0, 44), animated: animated)
+        self.tableView.setContentOffset(CGPointMake(0, 0), animated: animated)     // Auto hide search bar ---------------------------------NOT WORKING
+
+        self.navigationController?.setToolbarHidden(true, animated: animated)       // Hide bottom toolbar from MasterVC
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.setToolbarHidden(false, animated: animated)      // Unhide bottom toolbar for DetailVC
     }
 
     override func viewDidLoad() {
@@ -78,9 +83,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         let newNote = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as! Note
              
         // If appropriate, configure the new managed object.
-        // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
         
-        
+        // MARK: - TODO - Format timeStamp
 //        let dateAsString = "July 28, 2015, 11:14 AM"
 //        
 //        let dateFormatter = NSDateFormatter()
@@ -89,12 +93,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
      
         newNote.setValue(NSDate(), forKey: "timeStamp")
         newNote.setValue("Untitled note", forKey: "noteTitle")
-        
+        newNote.setValue("", forKey: "noteText")
+
+        // MARK: - TODO - Add placeholder
         // Adding light grey placeholder text for new notes
-                //
-        newNote.setValue("What do you want to remember and share today?", forKey: "noteText")
-        
+        //newNote.setValue("What do you want to remember and share today?", forKey: "noteText")
         // Save the context.
+        
         var error: NSError? = nil
         if !context.save(&error) {
             // Replace this implementation with code to handle the error appropriately.

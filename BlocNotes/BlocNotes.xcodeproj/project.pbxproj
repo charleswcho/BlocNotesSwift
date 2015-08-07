@@ -128,11 +128,8 @@
 			children = (
 				BA3493451B6AD9FC00800939 /* BlocNotes.entitlements */,
 				BA3492E81B66E74600800939 /* AppDelegate.swift */,
-				BA3492ED1B66E74600800939 /* MasterViewController.swift */,
-				BA3492EF1B66E74600800939 /* DetailViewController.swift */,
-				BA3493131B680EFA00800939 /* Note.swift */,
-				BAC3F8A01B73E6ED00A83FD8 /* Colors.swift */,
-				BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */,
+				BAC3F8A51B73E9FC00A83FD8 /* Controllers */,
+				BAC3F8A41B73E9D100A83FD8 /* Model */,
 				BA3492F11B66E74600800939 /* Main.storyboard */,
 				BAC3F8A21B73E94900A83FD8 /* LaunchScreen.xib */,
 				BA3492F41B66E74600800939 /* Images.xcassets */,
@@ -183,6 +180,25 @@
 				BA3493381B6AD8FB00800939 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BAC3F8A41B73E9D100A83FD8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BAC3F8A01B73E6ED00A83FD8 /* Colors.swift */,
+				BA3493131B680EFA00800939 /* Note.swift */,
+				BAFE33B01B7291D5009DE178 /* BlocNotes.xcdatamodeld */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		BAC3F8A51B73E9FC00A83FD8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BA3492ED1B66E74600800939 /* MasterViewController.swift */,
+				BA3492EF1B66E74600800939 /* DetailViewController.swift */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -19,5 +19,6 @@ class Colors: NSObject {
         gl = CAGradientLayer()
         gl.colors = [ colorTop, colorBottom]
         gl.locations = [ 0.0, 1.0]
+        gl.opacity = 0.5 as Float
     }
 }

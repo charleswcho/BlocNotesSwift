@@ -12,8 +12,7 @@ import CoreData
 class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResultsControllerDelegate {
 
     var managedObjectContext: NSManagedObjectContext? = nil
-    var placeHolderText = "What do you want to remember and share today?"
-    var actionableText = UIDataDetectorTypes()
+//    var placeHolderText = "What do you want to remember and share today?"
     
     @IBOutlet weak var detailDescriptionLabel: UILabel!
     @IBOutlet var textView: UITextView!
@@ -45,58 +44,55 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         self.configureView()
         textView.delegate = self
 
-        // A color gradient to Detail View
-        let colors = Colors()
+//        // A color gradient to Detail View
+//        let colors = Colors()
+//        
+//        textView.backgroundColor = UIColor.clearColor()
+//        var backgroundLayer = colors.gl
+//        backgroundLayer.frame = view.frame
+//        textView.layer.insertSublayer(backgroundLayer, atIndex: 0)
         
-        view.backgroundColor = UIColor.clearColor()
-        var backgroundLayer = colors.gl
-        backgroundLayer.frame = view.frame
-        view.layer.insertSublayer(backgroundLayer, atIndex: 0)
-        
-        // When view loads actionable text will be displayed
-        self.textView.editable = false
-        self.textView.dataDetectorTypes = UIDataDetectorTypes.All
+        // Make links #03AFFF
+        self.textView.linkTextAttributes = [NSForegroundColorAttributeName: UIColor(red: 3.0/255.0, green: 175.0/255.0, blue: 255.0/255.0, alpha: 1.0),
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue]
 
         if let detail: Note = self.detailItem {
-            
-            if detail.noteText == placeHolderText {
-                textView.textColor == UIColor.lightGrayColor()
-            } else {
-                self.textView.text = detail.noteText
-                self.textView.textColor = UIColor.blackColor()
-            }
+            self.textView.text = detail.noteText
+
+//            if detail.noteText == placeHolderText {
+//                textView.textColor == UIColor.lightGrayColor()
+//            } else {
+//                self.textView.textColor = UIColor.blackColor()
+//            }
         }
-        
-        
+
     }
-    
-    
     
     // Clear the placeholder text and set the text color to black to accommodate the user's entry.
     
-    func textViewDidBeginEditing(textView: UITextView) {
-        if let detail: Note = self.detailItem {
-            
-            if detail.noteText == placeHolderText {
-                detail.noteText = ""
-                textView.text = ""
-                self.textView.textColor = UIColor.blackColor()
-            }
-        }
-    }
-
-    // Reset its placeholder by re-adding the placeholder text and setting its color to light gray.
-    
-    func textViewDidEndEditing(textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = "What did you want to remember and share today?"
-            textView.textColor = UIColor.lightGrayColor()
-        }
-    }
+//    func textViewDidBeginEditing(textView: UITextView) {
+//        if let detail: Note = self.detailItem {
+//            
+//            if detail.noteText == placeHolderText {
+//                detail.noteText = ""
+//                textView.text = ""
+//                self.textView.textColor = UIColor.blackColor()
+//            }
+//        }
+//    }
+//
+//    // Reset its placeholder by re-adding the placeholder text and setting its color to light gray.
+//    
+//    func textViewDidEndEditing(textView: UITextView) {
+//        if textView.text.isEmpty {
+//            textView.text = "What did you want to remember and share today?"
+//            textView.textColor = UIColor.lightGrayColor()
+//        }
+//    }
     
     // Add sharing functionality
     
-    @IBAction func shareNote(sender: UIButton) {
+    @IBAction func shareNote(sender: UIBarButtonItem) {
         let activityViewController = UIActivityViewController(
             activityItems: [textView.text as NSString],
             applicationActivities: nil)
@@ -107,14 +103,31 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
     
     // Saving and resigning keyboard
 
-    @IBAction func DismissKeyboard(sender: UIButton) {
-        self.view .endEditing(true)
+    @IBAction func DismissKeyboard(UIBarButtonItem) {
+        self.view.endEditing(true)
         
         // Done button pressed will activate UIDataDetectors
+        // Find actionable text and format
+
         self.textView.editable = false
         self.textView.dataDetectorTypes = UIDataDetectorTypes.All
         
     }
+    
+
+    // Attempting to get rid of the first tap to activate the Textview then the second tap to start editing
+    
+//    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+//        self.textView.editable = true
+//        return true
+//    }
+    
+//    // Tap anywhere in the textView to trigger this UITapGestureRecognizer
+//    
+//    @IBAction func tapToEdit(UITapGestureRecognizer) {
+//        self.textViewShouldBeginEditing(textView)
+//    }
+   
 
     override func viewWillDisappear(animated: Bool) {
         detailItem!.noteText = self.textView.text
