@@ -50,6 +50,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Create the coordinator and store
         var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let url = self.applicationDocumentsDirectory!.URLByAppendingPathComponent("BlocNotes.sqlite")
+        
+//        let documentsDirectory =  NSFileManager.defaultManager().URLForDirectory(NSSearchPathDirectory.DocumentationDirectory, inDomain: NSSearchPathDomainMask.last, appropriateForURL: <#NSURL?#>, create: <#Bool#>, error: <#NSErrorPointer#>)
+        
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
         
@@ -97,6 +100,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 abort()
             }
         }
+    }
+    
+    // MARK: - iCloud
+    
+    func iCloudAccountIsSignedIn () -> Bool {
+        if let token = NSFileManager.defaultManager().ubiquityIdentityToken {
+            println("** iCloud is signed in with token \(token)")
+            return true
+        } else {
+            println("iCloud is NOT signed in")
+            println("--> Is iCloud Documents and Data enabled for a valid iCloud account on your Mac & iOS Device or Simulaltor?")
+            println("--> Is there a CODE_SIGN_ENTITLEMENTS Xcode warning that needs fixing? You may need to specifically choose a developer instead of using Automatic Selection")
+            return false
+        }
+    }
+    
+    func registerNotifications() {
+        
+        let nc = NSNotificationCenter.defaultCenter()
+        
+        nc.addObserver(self,
+            selector: "mergeChanges:",
+            name: NSManagedObjectContextDidSaveNotification,
+            object: nil)
+        println("NSManagedObjectContextDidSaveNotification                      listening")
+        
+        nc.addObserver(self,
+            selector: "storesWillChange:",
+            name: NSPersistentStoreCoordinatorStoresWillChangeNotification,
+            object: nil)
+        println("NSPersistentStoreCoordinatorStoresWillChangeNotification       listening")
+        
+        nc.addObserver(self,
+            selector: "storesDidChange:",
+            name: NSPersistentStoreCoordinatorStoresDidChangeNotification,
+            object: nil)
+        println("NSPersistentStoreCoordinatorStoresDidChangeNotification        listening")
+        
+        nc.addObserver(self,
+            selector: "persistentStoreDidImportUbiquitousContentChanges:",
+            name: NSPersistentStoreDidImportUbiquitousContentChangesNotification,
+            object: nil)
+        println("NSPersistentStoreDidImportUbiquitousContentChangesNotification listening")
+        
+        println("registerNotifications called")
     }
 
 }
