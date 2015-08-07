@@ -52,13 +52,18 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
 //        backgroundLayer.frame = view.frame
 //        textView.layer.insertSublayer(backgroundLayer, atIndex: 0)
         
-        // Make links #03AFFF
+        // Make Bottom Toolbar transparent ------------------------------------------ I want to make the toolbar transparent with white tint!
+        self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: UIBarPosition.Any, barMetrics: UIBarMetrics.Default)
+        self.navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.Any)
+
+        // Make links this color #03AFFF
         self.textView.linkTextAttributes = [NSForegroundColorAttributeName: UIColor(red: 3.0/255.0, green: 175.0/255.0, blue: 255.0/255.0, alpha: 1.0),
             NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue]
 
         if let detail: Note = self.detailItem {
             self.textView.text = detail.noteText
-
+           
+            // MARK: - TODO - Add placeholder
 //            if detail.noteText == placeHolderText {
 //                textView.textColor == UIColor.lightGrayColor()
 //            } else {
@@ -92,6 +97,7 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
     
     // Add sharing functionality
     
+    
     @IBAction func shareNote(sender: UIBarButtonItem) {
         let activityViewController = UIActivityViewController(
             activityItems: [textView.text as NSString],
@@ -103,6 +109,16 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
     
     // Saving and resigning keyboard
 
+    func textViewDidBeginEditing(textView: UITextView) {
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "DismissKeyboard:")
+        self.navigationItem.rightBarButtonItem = doneButton
+        
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+         self.navigationItem.rightBarButtonItem = nil
+    }
+    
     @IBAction func DismissKeyboard(UIBarButtonItem) {
         self.view.endEditing(true)
         
@@ -111,7 +127,6 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
 
         self.textView.editable = false
         self.textView.dataDetectorTypes = UIDataDetectorTypes.All
-        
     }
     
 

@@ -15,7 +15,8 @@
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="eps-E2-PCo">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="0.01176470588" green="0.68627450980000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </toolbar>
                     <connections>
                         <segue destination="pGg-6v-bdr" kind="relationship" relationship="rootViewController" id="RxB-wf-QIq"/>
@@ -167,13 +168,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="jGd-Ww-v6L"/>
                         <barButtonItem title="Item" id="7Mv-i8-4xX"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="cra-N8-TIN">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="jXZ-Am-Vx7">
-                            <connections>
-                                <action selector="DismissKeyboard:" destination="Ah7-4n-0Wa" id="kiC-e7-kKs"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="cra-N8-TIN"/>
                     <connections>
                         <outlet property="detailDescriptionLabel" destination="Lei-5M-9Gs" id="sCT-F7-F6f"/>
                         <outlet property="textView" destination="05K-4A-HOr" id="8Zb-vY-ci4"/>
