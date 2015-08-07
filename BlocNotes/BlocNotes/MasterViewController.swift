@@ -24,17 +24,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         super.awakeFromNib()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tableView.setContentOffset(CGPointMake(0, 0), animated: animated)     // Auto hide search bar ---------------------------------NOT WORKING
-
-        self.navigationController?.setToolbarHidden(true, animated: animated)       // Hide bottom toolbar from MasterVC
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        self.navigationController?.setToolbarHidden(false, animated: animated)      // Unhide bottom toolbar for DetailVC
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -65,6 +54,11 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
         // Question, what is this for? ------------------------
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"load", object: nil)
+        
+        
+        self.tableView.setContentOffset(CGPointMake(0, 44), animated: false)     // Auto hide search bar
+        
+        self.navigationController?.setToolbarHidden(true, animated: false)       // Hide bottom toolbar from MasterVC
     }
     
     func loadList(notification: NSNotification){

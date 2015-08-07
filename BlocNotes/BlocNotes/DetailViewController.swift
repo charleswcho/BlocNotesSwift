@@ -56,6 +56,9 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
 //        textView.layer.insertSublayer(backgroundLayer, atIndex: 0)
         
         // Make Bottom Toolbar transparent ------------------------------------------ I want to make the toolbar transparent with white tint!
+        self.navigationController?.setToolbarHidden(false, animated: false)      // Unhide bottom toolbar for DetailVC
+    
+
         self.navigationController?.toolbar.setBackgroundImage(UIImage(), forToolbarPosition: UIBarPosition.Any, barMetrics: UIBarMetrics.Default)
         self.navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: UIBarPosition.Any)
 
