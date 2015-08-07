@@ -128,11 +128,10 @@
 			children = (
 				BA3493451B6AD9FC00800939 /* BlocNotes.entitlements */,
 				BA3492E81B66E74600800939 /* AppDelegate.swift */,
+				BA3492F41B66E74600800939 /* Images.xcassets */,
+				BAC3F8A61B752E4C00A83FD8 /* Views */,
 				BAC3F8A51B73E9FC00A83FD8 /* Controllers */,
 				BAC3F8A41B73E9D100A83FD8 /* Model */,
-				BA3492F11B66E74600800939 /* Main.storyboard */,
-				BAC3F8A21B73E94900A83FD8 /* LaunchScreen.xib */,
-				BA3492F41B66E74600800939 /* Images.xcassets */,
 				BA3492E61B66E74600800939 /* Supporting Files */,
 			);
 			path = BlocNotes;
@@ -199,6 +198,15 @@
 				BA3492EF1B66E74600800939 /* DetailViewController.swift */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		BAC3F8A61B752E4C00A83FD8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BA3492F11B66E74600800939 /* Main.storyboard */,
+				BAC3F8A21B73E94900A83FD8 /* LaunchScreen.xib */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,6 +282,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
 						};
 					};
 					BA3492FC1B66E74600800939 = {
@@ -285,6 +296,9 @@
 						DevelopmentTeam = K622334C2L;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};
@@ -484,9 +498,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BlocNotes/BlocNotes.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = BlocNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -495,9 +512,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BlocNotes/BlocNotes.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = BlocNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
