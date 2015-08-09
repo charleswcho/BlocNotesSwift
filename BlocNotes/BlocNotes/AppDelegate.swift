@@ -28,6 +28,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Add iCloud
         iCloudAccountIsSignedIn()
         
+        // Obtain iCloud token -----------------------------------------------------------Experimental code
+        let currentiCloudToken = NSFileManager.defaultManager().ubiquityIdentityToken
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+
+        if ((currentiCloudToken) != nil) {
+            let newTokenData:NSData = NSKeyedArchiver.archivedDataWithRootObject(currentiCloudToken!)
+            userDefaults.setObject(newTokenData, forKey: "com.apple.BlocNotes.UbiquityIdentityToken")
+            
+        } else {
+            userDefaults.removeObjectForKey("com.apple.BlocNotes.UbiquityIdentityToken")
+        }
+        // The selector is supposed to use "iCloudAccountAvailabilityChanged"
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: iCloudAccountAvailabilityChanged(), name: NSUbiquityIdentityDidChangeNotification, object: nil)
+        
+        if ((currentiCloudToken) != nil && firstLaunchWithiCloudAvailable) {
+            var alert: UIAlertController!
+            alert.title = "Choose Storage Option"
+            alert.message = "Should documents be stored in iCloud and available on all your devices?"
+            alert.delete(self)
+            alert.preferredStyle = UIAlertControllerStyle
+            
+            
+        }
+        
+        
+        // Obtain iCloud token -----------------------------------------------------------Experimental code
+
+        
         return true
         
     }
