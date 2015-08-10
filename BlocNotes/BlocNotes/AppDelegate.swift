@@ -43,15 +43,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: iCloudAccountAvailabilityChanged(), name: NSUbiquityIdentityDidChangeNotification, object: nil)
         
         if ((currentiCloudToken) != nil && firstLaunchWithiCloudAvailable) {
-            var alert: UIAlertController!
-            alert.title = "Choose Storage Option"
-            alert.message = "Should documents be stored in iCloud and available on all your devices?"
-            alert.delete(self)
-            alert.preferredStyle = UIAlertControllerStyle
-            
+            var iCloudSettingsAlert = UIAlertController(title: "Choose Storage Option", message: "Should documents be stored in iCloud and available on all your devices?", preferredStyle: UIAlertControllerStyle.alert)
             
         }
         
+        // seperate method https://github.com/honkmaster/borrow/blob/master/borrow/AppDelegate.swift
+        
+        let iCloudToken = NSFileManager.defaultManager().ubiquityIdentityToken
+        let firstLaunchWithiCloudAvailable = NSUserDefaults.standardUserDefaults().boolForKey("firstLaunchWithiCloudAvailable")
+        if iCloudToken != nil && firstLaunchWithiCloudAvailable {
+            // Ask user if he/she wants to use iCloud
+            let alertController = UIAlertController(title: NSLocalizedString("Choose Storage Option", comment: ""), message: NSLocalizedString("Should your data be stored in iCloud and available on all your devices?", comment: ""), preferredStyle: .Alert)
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Local Only", comment: ""), style:.Cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Use iCloud", comment: ""), style: .Default, handler:{(action: UIAlertAction!) in
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "iCloudEnabled")
+            })
+            )
+            window!.rootViewController!.presentViewController(alertController, animated: true, completion: nil)
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "firstLaunchWithiCloudAvailable")
+        }
+        // Register for iCloud notification
+        
+        CoreDataController().registerForiCloudNotifications()
         
         // Obtain iCloud token -----------------------------------------------------------Experimental code
 
