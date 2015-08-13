@@ -24,7 +24,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationController = self.window!.rootViewController as! UINavigationController
         let controller = navigationController.topViewController as! MasterViewController
         controller.managedObjectContext = self.managedObjectContext
+        
+        // Add iCloud
+        
+        // Obtain iCloud token -----------------------------------------------------------Experimental code
+        let currentiCloudToken = NSFileManager.defaultManager().ubiquityIdentityToken
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+
+        if ((currentiCloudToken) != nil) {
+            let newTokenData:NSData = NSKeyedArchiver.archivedDataWithRootObject(currentiCloudToken!)
+            userDefaults.setObject(newTokenData, forKey: "com.apple.BlocNotes.UbiquityIdentityToken")
+            
+        } else {
+            userDefaults.removeObjectForKey("com.apple.BlocNotes.UbiquityIdentityToken")
+        }
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "iCloudAccountAvailabilityChanged:", name: NSUbiquityIdentityDidChangeNotification, object: nil)
+        
+        let firstLaunchWithiCloudAvailable = NSUserDefaults.standardUserDefaults().boolForKey("firstLaunchWithiCloudAvailable")
+        if ((currentiCloudToken) != nil && firstLaunchWithiCloudAvailable) {
+            
+            // Ask user if he/she wants to use iCloud
+            let alertController = UIAlertController(title: NSLocalizedString("Choose Storage Option", comment: ""), message: NSLocalizedString("Should your data be stored in iCloud and available on all your devices?", comment: ""), preferredStyle: .Alert)
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Local Only", comment: ""), style:.Cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Use iCloud", comment: ""), style: .Default, handler:{(action: UIAlertAction!) in
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "iCloudEnabled")
+            })
+            )
+            window!.rootViewController!.presentViewController(alertController, animated: true, completion: nil)
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "firstLaunchWithiCloudAvailable")
+
+        }
+        
+//        if iCloudAccountAvailabilityChanged: {
+//            let newiCloudToken = NSFileManager.defaultManager().ubiquityIdentityToken
+//            let oldiCloudToken =
+//            
+//        }
+        
         return true
+        
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -34,10 +77,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: - Core Data stack
-    
-    lazy var applicationDocumentsDirectory: NSURL? = {
-        return NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.charleswesleycho.BlocNotes") ?? nil
-        }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
@@ -49,16 +88,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
         var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory!.URLByAppendingPathComponent("BlocNotes.sqlite")
+
+        let documentsDirectory = NSFileManager.defaultManager().URLsForDirectory(NSSearchPathDirectory.DocumentationDirectory, inDomains: NSSearchPathDomainMask.UserDomainMask).last as! NSURL
+        
+        let storeUrl = documentsDirectory.URLByAppendingPathComponent("CoreData.sqlite")
+        
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
         
         // Allow automatic lightweight migration
         
-        let mOptions = [NSMigratePersistentStoresAutomaticallyOption: true,
-                              NSInferMappingModelAutomaticallyOption: true]
+        let mOptions = [NSPersistentStoreUbiquitousContentNameKey: "BlocNotesStore",
+                     NSMigratePersistentStoresAutomaticallyOption: true,
+                           NSInferMappingModelAutomaticallyOption: true]
         
-        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: mOptions, error: &error) == nil {            coordinator = nil
+        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeUrl, options: mOptions, error: &error) == nil {            coordinator = nil
             // Report any error we got.
             var dict = [String: AnyObject]()
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
@@ -80,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if coordinator == nil {
             return nil
         }
-        var managedObjectContext = NSManagedObjectContext()
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()
@@ -100,4 +144,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-
