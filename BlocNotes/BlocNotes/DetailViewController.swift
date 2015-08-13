@@ -55,7 +55,7 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
 //        backgroundLayer.frame = view.frame
 //        textView.layer.insertSublayer(backgroundLayer, atIndex: 0)
         
-        // Make Bottom Toolbar transparent ------------------------------------------ I want to make the toolbar transparent with white tint!
+        // Make Bottom Toolbar transparent
         self.navigationController?.setToolbarHidden(false, animated: false)      // Unhide bottom toolbar for DetailVC
     
 
@@ -103,7 +103,6 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
     
     // Add sharing functionality
     
-    
     @IBAction func shareNote(sender: UIBarButtonItem) {
         let activityViewController = UIActivityViewController(
             activityItems: [textView.text as NSString],
@@ -143,20 +142,6 @@ class DetailViewController: UIViewController, UITextViewDelegate, NSFetchedResul
         // Find actionable text and format
 
     }
-    
-
-    // Attempting to get rid of the first tap to activate the Textview then the second tap to start editing
-    
-//    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-//        self.textView.editable = true
-//        return true
-//    }
-    
-//    // Tap anywhere in the textView to trigger this UITapGestureRecognizer
-//    
-//    @IBAction func tapToEdit(UITapGestureRecognizer) {
-//        self.textViewShouldBeginEditing(textView)
-//    }
    
 
     override func viewWillDisappear(animated: Bool) {

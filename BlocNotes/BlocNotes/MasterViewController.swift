@@ -26,9 +26,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.tableView.setContentOffset(CGPointMake(0, 0), animated: animated)      // Auto hide search bar
-        self.navigationController?.setToolbarHidden(true, animated: animated)       // Hide bottom toolbar from MasterVC
-        
+                
         // iCloud setup
         if let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
             managedObjectContext = context
@@ -51,14 +49,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     
     func persistentStoreDidChange () {
         // reenable UI and fetch data
-        self.navigationItem.title = "iCloud ready"
+//        self.navigationItem.title = "iCloud ready"
         self.navigationItem.rightBarButtonItem?.enabled = true
         
-        // loadData()
     }
     
     func persistentStoreWillChange (notification:NSNotification) {
-        self.navigationItem.title = "Changes in progress"
+//        self.navigationItem.title = "Changes in progress"
         //disable UI
         self.navigationItem.rightBarButtonItem?.enabled = false
         
@@ -102,7 +99,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
         
-        self.navigationItem.title = "iCloud loading"
+//        self.navigationItem.title = "iCloud loading"
         self.navigationItem.rightBarButtonItem?.enabled = false
         
         // Setup delegates
@@ -114,6 +111,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.searchBar.sizeToFit()
+        
+        // Set search bar transparent
+        self.searchController.searchBar.setBackgroundImage(UIImage(), forBarPosition: UIBarPosition.Any, barMetrics: UIBarMetrics.Default)
         self.tableView.tableHeaderView = searchController?.searchBar
         self.tableView.delegate = self
         self.definesPresentationContext = true
@@ -145,13 +145,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         // If appropriate, configure the new managed object.
         
         // MARK: - TODO - Format timeStamp
-//        let dateAsString = "July 28, 2015, 11:14 AM"
-//        
-//        let dateFormatter = NSDateFormatter()
-//        dateFormatter.dateFormat = "MMM d, yyyy, h:mm a"
-//        let date = dateFormatter.dateFromString(dateAsString)
+        let dateAsString = "July 28, 2015, 11:14 AM"
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "MMM d, yyyy, h:mm a"
+        let date = dateFormatter.dateFromString(dateAsString)
      
-        newNote.setValue(NSDate(), forKey: "timeStamp")
+        newNote.setValue(date, forKey: "timeStamp")
         newNote.setValue("Untitled note", forKey: "noteTitle")
         newNote.setValue("", forKey: "noteText")
 
