@@ -52,7 +52,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         self.tableView.delegate = self
         self.definesPresentationContext = true
         
-        // Setup observers
+        // Question, what is this for? ------------------------
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"load", object: nil)
         
         

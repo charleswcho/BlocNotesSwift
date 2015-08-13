@@ -24,6 +24,69 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         super.awakeFromNib()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tableView.setContentOffset(CGPointMake(0, 0), animated: animated)      // Auto hide search bar
+        self.navigationController?.setToolbarHidden(true, animated: animated)       // Hide bottom toolbar from MasterVC
+        
+        // iCloud setup
+        if let context = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+            managedObjectContext = context
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "persistentStoreDidChange", name: NSPersistentStoreCoordinatorStoresDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "persistentStoreWillChange:", name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: managedObjectContext?.persistentStoreCoordinator)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "recieveICloudChanges:", name: NSPersistentStoreDidImportUbiquitousContentChangesNotification, object: managedObjectContext?.persistentStoreCoordinator)
+
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.setToolbarHidden(false, animated: animated)      // Unhide bottom toolbar for DetailVC
+        
+        // Remove observers
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSPersistentStoreCoordinatorStoresDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: managedObjectContext?.persistentStoreCoordinator)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSPersistentStoreDidImportUbiquitousContentChangesNotification, object: managedObjectContext?.persistentStoreCoordinator)
+    }
+    
+    func persistentStoreDidChange () {
+        // reenable UI and fetch data
+        self.navigationItem.title = "iCloud ready"
+        self.navigationItem.rightBarButtonItem?.enabled = true
+        
+        // loadData()
+    }
+    
+    func persistentStoreWillChange (notification:NSNotification) {
+        self.navigationItem.title = "Changes in progress"
+        //disable UI
+        self.navigationItem.rightBarButtonItem?.enabled = false
+        
+        managedObjectContext?.performBlock { () -> Void in
+            if (self.managedObjectContext?.hasChanges != nil) {
+                var error:NSError? = nil
+                self.managedObjectContext?.save(&error)
+                if error != nil {
+                    println("Save error: \(error)")
+                } else {
+                    // drop any managed object references
+                    self.managedObjectContext?.reset()
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    
+    func recieveICloudChanges (notification:NSNotification) {
+        managedObjectContext?.performBlock { () -> Void in
+            self.managedObjectContext?.mergeChangesFromContextDidSaveNotification(notification)
+            // loadData()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -33,11 +96,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         bar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         bar.shadowImage = UIImage()
         
-        // Set background image
-        self.tableView.backgroundView = UIImageView(image: UIImage(named: "2.jpg"))
+        self.tableView.backgroundView = UIImageView(image: UIImage(named: "2.jpg"))        // Set background image
+
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
+        
+        self.navigationItem.title = "iCloud loading"
+        self.navigationItem.rightBarButtonItem?.enabled = false
         
         // Setup delegates
         tableView.delegate = self
@@ -54,11 +120,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
         // Setup observers
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"load", object: nil)
-        
-        
-        self.tableView.setContentOffset(CGPointMake(0, 44), animated: false)     // Auto hide search bar
-        
-        self.navigationController?.setToolbarHidden(true, animated: false)       // Hide bottom toolbar from MasterVC
     }
     
     func loadList(notification: NSNotification){
@@ -101,6 +162,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             //println("Unresolved error \(error), \(error.userInfo)")
             abort()
         }
+        
     }
 
     // MARK: - Segues
@@ -124,8 +186,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 (segue.destinationViewController as! DetailViewController).managedObjectContext = self.fetchedResultsController.managedObjectContext
 
             }
-            //self.didDismissSearchController(searchController)
-            //searchController.active = false // dismisses searchBar when cell selected
         }
     }
     
@@ -266,7 +326,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     	}
         
         return _fetchedResultsController!
-    }    
+    }
+    
     var _fetchedResultsController: NSFetchedResultsController? = nil
 
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
