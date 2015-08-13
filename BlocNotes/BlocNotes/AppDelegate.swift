@@ -26,7 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         controller.managedObjectContext = self.managedObjectContext
         
         // Add iCloud
-        iCloudAccountIsSignedIn()
         
         // Obtain iCloud token -----------------------------------------------------------Experimental code
         let currentiCloudToken = NSFileManager.defaultManager().ubiquityIdentityToken
@@ -39,19 +38,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             userDefaults.removeObjectForKey("com.apple.BlocNotes.UbiquityIdentityToken")
         }
-        // The selector is supposed to use "iCloudAccountAvailabilityChanged"
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: iCloudAccountAvailabilityChanged(), name: NSUbiquityIdentityDidChangeNotification, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "iCloudAccountAvailabilityChanged:", name: NSUbiquityIdentityDidChangeNotification, object: nil)
         
-        if ((currentiCloudToken) != nil && firstLaunchWithiCloudAvailable) {
-            var iCloudSettingsAlert = UIAlertController(title: "Choose Storage Option", message: "Should documents be stored in iCloud and available on all your devices?", preferredStyle: UIAlertControllerStyle.alert)
-            
-        }
-        
-        // seperate method https://github.com/honkmaster/borrow/blob/master/borrow/AppDelegate.swift
-        
-        let iCloudToken = NSFileManager.defaultManager().ubiquityIdentityToken
         let firstLaunchWithiCloudAvailable = NSUserDefaults.standardUserDefaults().boolForKey("firstLaunchWithiCloudAvailable")
-        if iCloudToken != nil && firstLaunchWithiCloudAvailable {
+        if ((currentiCloudToken) != nil && firstLaunchWithiCloudAvailable) {
+            
             // Ask user if he/she wants to use iCloud
             let alertController = UIAlertController(title: NSLocalizedString("Choose Storage Option", comment: ""), message: NSLocalizedString("Should your data be stored in iCloud and available on all your devices?", comment: ""), preferredStyle: .Alert)
             alertController.addAction(UIAlertAction(title: NSLocalizedString("Local Only", comment: ""), style:.Cancel, handler: nil))
@@ -61,13 +53,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             )
             window!.rootViewController!.presentViewController(alertController, animated: true, completion: nil)
             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "firstLaunchWithiCloudAvailable")
-        }
-        // Register for iCloud notification
-        
-        CoreDataController().registerForiCloudNotifications()
-        
-        // Obtain iCloud token -----------------------------------------------------------Experimental code
 
+        }
+        
+//        if iCloudAccountAvailabilityChanged: {
+//            let newiCloudToken = NSFileManager.defaultManager().ubiquityIdentityToken
+//            let oldiCloudToken =
+//            
+//        }
         
         return true
         
@@ -149,20 +142,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-    
-    // MARK: - iCloud
-    
-    func iCloudAccountIsSignedIn () -> Bool {
-        if let token = NSFileManager.defaultManager().ubiquityIdentityToken {
-            println("** iCloud is signed in with token \(token)")
-            return true
-        } else {
-            println("iCloud is NOT signed in")
-            println("--> Is iCloud Documents and Data enabled for a valid iCloud account on your Mac & iOS Device or Simulaltor?")
-            println("--> Is there a CODE_SIGN_ENTITLEMENTS Xcode warning that needs fixing? You may need to specifically choose a developer instead of using Automatic Selection")
-            return false
-        }
-    }
-    
-}
 
+}

@@ -35,8 +35,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "persistentStoreDidChange", name: NSPersistentStoreCoordinatorStoresDidChangeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "persistentStoreWillChange", name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: managedObjectContext?.persistentStoreCoordinator)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "recieveICloudChanges", name: NSPersistentStoreDidImportUbiquitousContentChangesNotification, object: managedObjectContext?.persistentStoreCoordinator)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "persistentStoreWillChange:", name: NSPersistentStoreCoordinatorStoresWillChangeNotification, object: managedObjectContext?.persistentStoreCoordinator)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "recieveICloudChanges:", name: NSPersistentStoreDidImportUbiquitousContentChangesNotification, object: managedObjectContext?.persistentStoreCoordinator)
 
     }
     
@@ -78,6 +78,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
         
     }
+    
     
     func recieveICloudChanges (notification:NSNotification) {
         managedObjectContext?.performBlock { () -> Void in
